@@ -759,15 +759,16 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                right: 0;
-                bottom: 0;
-                background: var(--black);
+                width: 100vw;
+                height: 100vh;
+                background: #000000;
                 justify-content: center;
                 align-items: center;
                 gap: 40px;
-                z-index: 100;
+                z-index: 9998;
             }
-            .nav-links.open a { font-size: 1.2rem; }
+            .nav-links.open a { font-size: 1.2rem; color: #ffffff; }
+            .mobile-toggle { z-index: 9999; }
             .scroll-indicator { display: none; }
         }
         /* EASTER EGG */
