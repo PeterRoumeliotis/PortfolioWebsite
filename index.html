@@ -97,6 +97,9 @@
             display: flex;
             gap: 32px;
             list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .nav-links a {
@@ -458,9 +461,15 @@
         /* PROJECTS */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
         }
+
+        /* Bento layout: Phi Delt, AI Fire, Voice AI are featured */
+        .projects-grid .project-card:nth-child(2) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(3) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(6) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(7) { grid-column: 1 / -1; }
 
         .project-card {
             background: rgba(10, 16, 32, 0.8);
@@ -796,6 +805,7 @@
             section { padding: 100px 24px; }
             .about-grid { grid-template-columns: 1fr; gap: 40px; }
             .projects-grid { grid-template-columns: 1fr; }
+            .projects-grid .project-card:nth-child(n) { grid-column: span 1; }
             .section-title { font-size: 2rem; }
             .hero-wrapper { flex-direction: column; text-align: center; gap: 32px; }
             .hero-text { text-align: center; }
@@ -821,14 +831,95 @@
             .mobile-toggle { z-index: 9999; }
             .scroll-indicator { display: none; }
         }
-        /* EASTER EGG */
-        .egg-overlay {
+        /* CONSTELLATION TRAIL */
+        #constellation-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99996;
+        }
+
+        /* TERMINAL RESUME */
+        .terminal-window {
+            max-width: 860px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 102, 255, 0.2);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 60px rgba(0,102,255,0.08);
+            text-align: left;
+        }
+        .terminal-bar {
+            background: #1e1e1e;
+            padding: 11px 16px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            user-select: none;
+        }
+        .t-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+        .t-dot.r { background: #ff5f57; }
+        .t-dot.y { background: #febc2e; }
+        .t-dot.g { background: #28c840; }
+        .terminal-bar-title {
+            flex: 1; text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; color: #555; letter-spacing: 0.5px;
+        }
+        .terminal-output {
+            background: #0d1117;
+            padding: 20px 24px 8px;
+            height: 480px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.75;
+            color: #8b949e;
+            scrollbar-width: thin;
+            scrollbar-color: #30363d transparent;
+        }
+        .terminal-output::-webkit-scrollbar { width: 4px; }
+        .terminal-output::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+        .terminal-input-row {
+            background: #0d1117;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 8px 24px 14px;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .terminal-input-row input {
+            background: none; border: none; outline: none;
+            color: #e0e8f0; caret-color: #00ff88;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; flex: 1;
+        }
+        .t-ps1 { color: #00ff88; }
+        .t-cmd-text { color: #e0e8f0; }
+        .t-section-head { color: #00ff88; }
+        .t-label { color: #58a6ff; }
+        .t-white { color: #f0f6fc; }
+        .t-dim { color: #3d444d; }
+        .t-green { color: #3fb950; }
+        .t-yellow { color: #e3b341; }
+        .t-error { color: #ff7b72; }
+        @keyframes t-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .t-cursor {
+            display: inline-block; width: 7px; height: 14px;
+            background: #00ff88; vertical-align: middle; margin-left: 2px;
+            animation: t-blink 1s step-end infinite;
+        }
+        @media (max-width: 900px) {
+            .terminal-output { height: 360px; font-size: 0.72rem; padding: 16px 16px 8px; }
+            .terminal-input-row { padding: 8px 16px 12px; }
+            .terminal-input-row input { font-size: 0.72rem; }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -837,45 +928,41 @@
             pointer-events: none;
             transition: opacity 0.4s ease;
         }
-
-        .egg-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .egg-overlay iframe {
-            width: 80vw;
-            height: 45vw;
-            max-width: 960px;
-            max-height: 540px;
-            border: 2px solid rgba(0, 102, 255, 0.3);
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-overlay .modal-inner {
+            width: min(80vw, 720px);
             border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            box-shadow: 0 0 60px rgba(0, 102, 255, 0.2);
         }
-
-        .egg-close {
+        .modal-close {
             position: absolute;
-            top: 24px;
-            right: 32px;
+            top: 24px; right: 32px;
             font-size: 2rem;
             color: #8899aa;
             cursor: pointer;
             transition: color 0.3s;
             z-index: 10000;
         }
-
-        .egg-close:hover { color: #ffffff; }
+        .modal-close:hover { color: #ffffff; }
     </style>
 </head>
 <body>
 
-<!-- EASTER EGG OVERLAY -->
-<div class="egg-overlay" id="eggOverlay">
-    <span class="egg-close" id="eggClose">&times;</span>
-    <iframe id="eggVideo" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</div>
 
 <!-- THREE.JS BACKGROUND -->
+<div class="modal-overlay" id="modalEl">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <div class="modal-inner">
+        <div class="tenor-gif-embed" data-postid="27645399" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%">
+            <a href="https://tenor.com/view/aot-freedom-eren-yeager-eren-attack-on-titan-gif-27645399">Aot Freedom GIF</a>
+        </div>
+    </div>
+</div>
+
 <canvas id="bg-canvas"></canvas>
+<canvas id="constellation-canvas"></canvas>
 
 <!-- NAVIGATION -->
 <nav id="navbar">
@@ -1054,18 +1141,6 @@
                     <span class="project-tag">JDBC</span>
                 </div>
             </a>
-            <a href="https://github.com/allanilya/Stock-analytics" target="_blank" class="project-card">
-                <div class="project-icon">📈</div>
-                <div class="project-name">Stock Price Forecasting</div>
-                <div class="project-context">St. John's University · AI in Finance · Capstone Project</div>
-                <div class="project-desc">A comprehensive comparison of ARIMA, LSTM, and GRU models for stock price prediction across three market sectors. Neural networks achieved 64-82% RMSE reduction over classical models, with GRU emerging as the best balance of accuracy and efficiency.</div>
-                <div class="project-tags">
-                    <span class="project-tag">LSTM</span>
-                    <span class="project-tag">ARIMA</span>
-                    <span class="project-tag">Python</span>
-                    <span class="project-tag">Time Series</span>
-                </div>
-            </a>
             <a href="https://github.com/PeterRoumeliotis/CritterProject" target="_blank" class="project-card">
                 <div class="project-icon">🐾</div>
                 <div class="project-name">Critter Simulation</div>
@@ -1076,6 +1151,31 @@
                     <span class="project-tag">Java Swing</span>
                     <span class="project-tag">OOP</span>
                     <span class="project-tag">Simulation</span>
+                </div>
+            </a>
+            <a href="https://github.com/SimonBradlow/voice-ai" target="_blank" class="project-card">
+                <div class="project-icon">🎙️</div>
+                <div class="project-name">Voice AI Network Scanner</div>
+                <div class="project-context">Research Project · Voice AI · Network Security</div>
+                <div class="project-desc">A voice-first network security tool combining VAPI, Claude Sonnet, and nmap. Speak commands to trigger WiFi subnet scans, enumerate devices and ports, and receive structured risk assessments (CRITICAL → LOW) delivered back via natural speech.</div>
+                <div class="project-tags">
+                    <span class="project-tag">Python</span>
+                    <span class="project-tag">FastAPI</span>
+                    <span class="project-tag">VAPI</span>
+                    <span class="project-tag">Claude Sonnet</span>
+                    <span class="project-tag">nmap</span>
+                </div>
+            </a>
+            <a href="https://github.com/allanilya/Stock-analytics" target="_blank" class="project-card">
+                <div class="project-icon">📈</div>
+                <div class="project-name">Stock Price Forecasting</div>
+                <div class="project-context">St. John's University · AI in Finance · Capstone Project</div>
+                <div class="project-desc">A comprehensive comparison of ARIMA, LSTM, and GRU models for stock price prediction across three market sectors. Neural networks achieved 64-82% RMSE reduction over classical models, with GRU emerging as the best balance of accuracy and efficiency.</div>
+                <div class="project-tags">
+                    <span class="project-tag">LSTM</span>
+                    <span class="project-tag">ARIMA</span>
+                    <span class="project-tag">Python</span>
+                    <span class="project-tag">Time Series</span>
                 </div>
             </a>
         </div>
@@ -1201,15 +1301,23 @@
     <div class="section-inner">
         <h2 class="section-title">Resume</h2>
         <div class="resume-actions">
-            <a href="PeterRoumeliotis%20-%20Resume.pdf" download="PeterRoumeliotis - Resume.pdf" class="btn-primary">
+            <a href="PeterRoumeliotis%20-%20Resume.pdf" download="PeterRoumeliotis - Resume.pdf" class="btn-primary" id="resumeDownloadBtn">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M5 20h14v-2H5v2zm7-18L5.33 9h3.84v6h5.66V9h3.84L12 2z"/></svg>
-                Download Resume
+                Download PDF
             </a>
         </div>
-        <div class="resume-embed-wrapper">
-            <iframe src="PeterRoumeliotis%20-%20Resume.pdf" class="resume-embed" title="Peter Roumeliotis Resume">
-                <p>Your browser does not support PDF embedding. <a href="PeterRoumeliotis%20-%20Resume.pdf" download>Download the resume</a> instead.</p>
-            </iframe>
+        <div class="terminal-window">
+            <div class="terminal-bar">
+                <span class="t-dot r"></span>
+                <span class="t-dot y"></span>
+                <span class="t-dot g"></span>
+                <span class="terminal-bar-title">peter@portfolio — ~/resume</span>
+            </div>
+            <div class="terminal-output" id="termOutput"></div>
+            <div class="terminal-input-row">
+                <span class="t-ps1">peter@portfolio:~$&nbsp;</span>
+                <input type="text" id="termInput" placeholder="type 'help' for commands" autocomplete="off" spellcheck="false">
+            </div>
         </div>
     </div>
 </section>
@@ -1240,6 +1348,9 @@
 <footer>
     <p>&copy; 2026 Peter Roumeliotis. All rights reserved.</p>
 </footer>
+
+<!-- TENOR -->
+<script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
 <!-- THREE.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1484,38 +1595,21 @@
         }
     });
 
-    // Easter egg - 5 clicks on PR logo
-    let logoClicks = 0;
-    let logoTimer = null;
+    let _lc = 0;
+    let _lt = null;
     const logo = document.querySelector('.nav-logo');
-    const overlay = document.getElementById('eggOverlay');
-    const eggVideo = document.getElementById('eggVideo');
-    const eggClose = document.getElementById('eggClose');
-
-    logo.style.cursor = 'pointer';
     logo.addEventListener('click', (e) => {
         e.preventDefault();
-        logoClicks++;
-        clearTimeout(logoTimer);
-        logoTimer = setTimeout(() => { logoClicks = 0; }, 1500);
-        if (logoClicks >= 5) {
-            logoClicks = 0;
-            eggVideo.src = 'https://www.youtube.com/embed/eD1PT4TY3W8?autoplay=1';
-            overlay.classList.add('active');
-        }
+        _lc++;
+        clearTimeout(_lt);
+        _lt = setTimeout(() => { _lc = 0; }, 1500);
+        if (_lc >= 5) { _lc = 0; document.getElementById('modalEl').classList.add('active'); }
     });
 
-    eggClose.addEventListener('click', () => {
-        overlay.classList.remove('active');
-        eggVideo.src = '';
-    });
-
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.classList.remove('active');
-            eggVideo.src = '';
-        }
-    });
+    const modalEl = document.getElementById('modalEl');
+    const modalClose = document.getElementById('modalClose');
+    modalClose.addEventListener('click', () => modalEl.classList.remove('active'));
+    modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modalEl.classList.remove('active'); });
 
     // Close mobile nav on link click
     document.querySelectorAll('.nav-links a').forEach(link => {
@@ -1523,6 +1617,282 @@
             document.getElementById('navLinks').classList.remove('open');
         });
     });
+})();
+// === TERMINAL RESUME ===
+(function() {
+    const out = document.getElementById('termOutput');
+    const inp = document.getElementById('termInput');
+    if (!out || !inp) return;
+
+    const EXP = [
+        { t: '', c: '' },
+        { t: '── EXPERIENCE ──────────────────────────────────────────────', c: 't-section-head' },
+        { t: '', c: '' },
+        { t: '▸ Cybersecurity & DFIR Investigative Analyst | Full-Stack Developer', c: 't-white' },
+        { t: '  T&M USA                                        AUG 2025 – PRESENT', c: 't-label' },
+        { t: '  · Laravel enterprise platform (PHP, MySQL, AWS) — five-figure MRR', c: '' },
+        { t: '  · DFIR investigations, malware analysis, dark web & OSINT monitoring', c: '' },
+        { t: '  · Network recon & appsec testing with Nmap and Burp Suite', c: '' },
+        { t: '  · Cyber forensics collaboration with attorneys pre-litigation', c: '' },
+        { t: '', c: '' },
+        { t: '▸ Website Developer & Social Media Manager', c: 't-white' },
+        { t: '  Women in Cyber Leadership                     AUG 2024 – OCT 2024', c: 't-label' },
+        { t: '  · Built organization website; managed cross-platform social media', c: '' },
+        { t: '', c: '' },
+        { t: '▸ Cyber Security Intern', c: 't-white' },
+        { t: '  New York Metro InfraGard                     MAY 2024 – OCT 2024', c: 't-label' },
+        { t: '  · Weekly events with critical infrastructure owners and the FBI', c: '' },
+        { t: '  · Presentations on vulnerabilities, threat vectors & mitigation', c: '' },
+        { t: '', c: '' },
+        { t: '▸ Software Engineer', c: 't-white' },
+        { t: '  CTS Logistics                                JUL 2022 – AUG 2022', c: 't-label' },
+        { t: '  · Java asset & inventory tracking system backed by MySQL', c: '' },
+        { t: '', c: '' },
+    ];
+
+    const EDU = [
+        { t: '', c: '' },
+        { t: '── EDUCATION ───────────────────────────────────────────────', c: 't-section-head' },
+        { t: '', c: '' },
+        { t: '▸ M.S. Computer Science  ·  Data Science & Artificial Intelligence', c: 't-white' },
+        { t: '  St. John\'s University', c: 't-label' },
+        { t: '', c: '' },
+        { t: '▸ B.S. Computer Science', c: 't-white' },
+        { t: '  St. John\'s University', c: 't-label' },
+        { t: '', c: '' },
+    ];
+
+    const CERTS = [
+        { t: '', c: '' },
+        { t: '── CERTIFICATIONS ──────────────────────────────────────────', c: 't-section-head' },
+        { t: '', c: '' },
+        { t: '  [✓]  AWS Certified Cloud Practitioner', c: 't-green' },
+        { t: '  [✓]  AWS Solutions Architect – Associate', c: 't-green' },
+        { t: '  [✓]  Cellebrite CCPA Certified', c: 't-green' },
+        { t: '', c: '' },
+    ];
+
+    const SKILLS = [
+        { t: '', c: '' },
+        { t: '── SKILLS ──────────────────────────────────────────────────', c: 't-section-head' },
+        { t: '', c: '' },
+        { t: '  Code        │  Java · JS · Python · C++ · Swift · SQL · PHP · Scala', c: '' },
+        { t: '  Frameworks  │  React · Node.js · Next.js · Laravel · Flask · SwiftUI', c: '' },
+        { t: '  Security    │  Cybersecurity · DFIR · IAM · Vuln Mgmt · Threat Analysis', c: '' },
+        { t: '  Cloud & AI  │  AWS · ML · LLMs · CNNs · Computer Vision · YOLOv8', c: '' },
+        { t: '  Spoken      │  English · Greek · Spanish', c: '' },
+        { t: '', c: '' },
+    ];
+
+    const HEADER = [
+        { t: '', c: '' },
+        { t: '┌──────────────────────────────────────────────────────────┐', c: 't-dim' },
+        { t: '│                                                          │', c: 't-dim' },
+        { t: '│             PETER ROUMELIOTIS                            │', c: 't-white' },
+        { t: '│   Cybersecurity Professional  ·  Full-Stack Developer    │', c: 't-label' },
+        { t: '│   proumeliotis07@gmail.com  ·  New York, NY              │', c: 't-dim' },
+        { t: '│                                                          │', c: 't-dim' },
+        { t: '└──────────────────────────────────────────────────────────┘', c: 't-dim' },
+    ];
+
+    const RESUME_LINES = [...HEADER, ...EXP, ...EDU, ...CERTS, ...SKILLS];
+
+    const HELP_LINES = [
+        { t: '', c: '' },
+        { t: 'available commands:', c: 't-label' },
+        { t: '', c: '' },
+        { t: '  cat resume.txt      —  full resume', c: '' },
+        { t: '  cat experience.txt  —  work history', c: '' },
+        { t: '  cat education.txt   —  education', c: '' },
+        { t: '  cat skills.txt      —  skills & technologies', c: '' },
+        { t: '  cat certs.txt       —  certifications', c: '' },
+        { t: '  download            —  save PDF to disk', c: '' },
+        { t: '  whoami              —  about peter', c: '' },
+        { t: '  clear               —  clear terminal', c: '' },
+        { t: '', c: '' },
+    ];
+
+    function addLine(text, cls) {
+        const div = document.createElement('div');
+        const node = cls ? document.createElement('span') : div;
+        if (cls) { node.className = cls; div.appendChild(node); }
+        node.textContent = text || '\u00a0';
+        out.appendChild(div);
+        out.scrollTop = out.scrollHeight;
+    }
+
+    function streamLines(lines) {
+        return new Promise(resolve => {
+            let i = 0;
+            (function next() {
+                if (i >= lines.length) { resolve(); return; }
+                const { t, c } = lines[i++];
+                addLine(t, c);
+                setTimeout(next, 22);
+            })();
+        });
+    }
+
+    function typeCommand(cmd) {
+        return new Promise(resolve => {
+            const div = document.createElement('div');
+            const ps = document.createElement('span'); ps.className = 't-ps1'; ps.textContent = 'peter@portfolio:~$ ';
+            const cs = document.createElement('span'); cs.className = 't-cmd-text';
+            const cur = document.createElement('span'); cur.className = 't-cursor';
+            div.append(ps, cs, cur);
+            out.appendChild(div);
+            let i = 0;
+            (function type() {
+                if (i >= cmd.length) { cur.remove(); setTimeout(resolve, 300); return; }
+                cs.textContent += cmd[i++];
+                out.scrollTop = out.scrollHeight;
+                setTimeout(type, 68);
+            })();
+        });
+    }
+
+    function addPrompt(cmd) {
+        const div = document.createElement('div');
+        const ps = document.createElement('span'); ps.className = 't-ps1'; ps.textContent = 'peter@portfolio:~$ ';
+        const cs = document.createElement('span'); cs.className = 't-cmd-text'; cs.textContent = cmd;
+        div.append(ps, cs);
+        out.appendChild(div);
+        out.scrollTop = out.scrollHeight;
+    }
+
+    async function run(cmd) {
+        const t = cmd.trim().toLowerCase();
+        addPrompt(cmd.trim());
+        if (!t) return;
+
+        if (t === 'clear') { out.innerHTML = ''; return; }
+        if (t === 'help' || t === '?') { await streamLines(HELP_LINES); return; }
+        if (t === 'cat resume.txt') { await streamLines(RESUME_LINES); return; }
+        if (t === 'cat experience.txt') { await streamLines(EXP); return; }
+        if (t === 'cat education.txt') { await streamLines(EDU); return; }
+        if (t === 'cat certs.txt') { await streamLines(CERTS); return; }
+        if (t === 'cat skills.txt') { await streamLines(SKILLS); return; }
+        if (t === 'ls' || t === 'dir') {
+            await streamLines([
+                { t: '', c: '' },
+                { t: 'resume.txt    experience.txt    education.txt    skills.txt    certs.txt', c: 't-green' },
+                { t: '', c: '' },
+            ]); return;
+        }
+        if (t === 'download') {
+            addLine('Initiating download...', 't-green');
+            document.getElementById('resumeDownloadBtn').click();
+            await streamLines([{ t: 'PeterRoumeliotis-Resume.pdf downloaded.', c: 't-green' }, { t: '', c: '' }]);
+            return;
+        }
+        if (t === 'whoami') {
+            await streamLines([
+                { t: '', c: '' },
+                { t: 'peter — Cybersecurity Professional & Full-Stack Developer', c: 't-white' },
+                { t: 'Trilingual. AWS Certified. DFIR Trained. Builder of things.', c: '' },
+                { t: '', c: '' },
+            ]); return;
+        }
+        if (t === 'pwd') { await streamLines([{ t: '/home/peter/portfolio', c: '' }, { t: '', c: '' }]); return; }
+        if (t === 'date') { await streamLines([{ t: new Date().toString(), c: '' }, { t: '', c: '' }]); return; }
+
+        await streamLines([
+            { t: 'bash: ' + cmd.trim() + ': command not found', c: 't-error' },
+            { t: "type 'help' for available commands.", c: 't-dim' },
+            { t: '', c: '' },
+        ]);
+    }
+
+    inp.addEventListener('keydown', async (e) => {
+        if (e.key !== 'Enter') return;
+        const cmd = inp.value; inp.value = ''; inp.disabled = true;
+        await run(cmd);
+        inp.disabled = false; inp.focus();
+    });
+
+    async function boot() {
+        addLine('Last login: ' + new Date().toDateString() + ' on ttys001', 't-dim');
+        addLine('');
+        addLine('Welcome to Peter\'s Portfolio Terminal  —  type \'help\' for commands', 't-section-head');
+        addLine('');
+        await typeCommand('cat resume.txt');
+        await streamLines(RESUME_LINES);
+        inp.focus();
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { obs.disconnect(); boot(); }
+    }, { threshold: 0.25 });
+    obs.observe(out);
+})();
+
+// === CONSTELLATION TRAIL ===
+(function() {
+    const canvas = document.getElementById('constellation-canvas');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
+
+    const dots = [];
+    const CONNECT_DIST = 120;
+    const LIFETIME = 1800;
+    let lastTime = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        const now = performance.now();
+        if (now - lastTime < 30) return;
+        lastTime = now;
+        dots.push({ x: e.clientX, y: e.clientY, born: now, r: 2.5 + Math.random() * 1.5 });
+    });
+
+    function draw(now) {
+        requestAnimationFrame(draw);
+        ctx.clearRect(0, 0, W, H);
+
+        // Remove expired dots
+        for (let i = dots.length - 1; i >= 0; i--) {
+            if (now - dots[i].born > LIFETIME) dots.splice(i, 1);
+        }
+
+        // Draw connections
+        for (let i = 0; i < dots.length; i++) {
+            for (let j = i + 1; j < dots.length; j++) {
+                const dx = dots[i].x - dots[j].x;
+                const dy = dots[i].y - dots[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist > CONNECT_DIST) continue;
+
+                const ai = 1 - (now - dots[i].born) / LIFETIME;
+                const aj = 1 - (now - dots[j].born) / LIFETIME;
+                const alpha = Math.min(ai, aj) * (1 - dist / CONNECT_DIST) * 0.6;
+
+                ctx.beginPath();
+                ctx.moveTo(dots[i].x, dots[i].y);
+                ctx.lineTo(dots[j].x, dots[j].y);
+                ctx.strokeStyle = `rgba(77, 148, 255, ${alpha})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+            }
+        }
+
+        // Draw dots
+        for (const d of dots) {
+            const t = 1 - (now - d.born) / LIFETIME;
+            const alpha = t * t;
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.r * t, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(180, 215, 255, ${alpha})`;
+            ctx.fill();
+            // Soft glow
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.r * 2.5 * t, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 102, 255, ${alpha * 0.2})`;
+            ctx.fill();
+        }
+    }
+
+    requestAnimationFrame(draw);
 })();
 </script>
 </body>
