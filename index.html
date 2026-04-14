@@ -469,7 +469,7 @@
         .projects-grid .project-card:nth-child(2) { grid-column: span 2; }
         .projects-grid .project-card:nth-child(3) { grid-column: span 2; }
         .projects-grid .project-card:nth-child(6) { grid-column: span 2; }
-        .projects-grid .project-card:nth-child(7) { grid-column: 1 / -1; }
+        .projects-grid .project-card:nth-child(7) { grid-column: span 2; }
 
         .project-card {
             background: rgba(10, 16, 32, 0.8);
@@ -621,52 +621,77 @@
 
         /* CERTIFICATIONS */
         .certs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
         }
 
-        .cert-card {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: rgba(10, 16, 32, 0.6);
-            border: 1px solid rgba(0, 102, 255, 0.1);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.4s ease;
+        .cert-badge {
+            position: relative;
+            display: inline-block;
             opacity: 0;
             transform: translateY(20px);
+            transition: all 0.4s ease;
         }
 
-        .cert-card:hover {
-            border-color: rgba(0, 102, 255, 0.3);
-            transform: translateY(-3px);
+        .cert-badge img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .cert-badge:hover img {
+            transform: translateY(-4px) scale(1.04);
             box-shadow: var(--glow);
         }
 
-        .cert-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 102, 255, 0.05));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 1.3rem;
+        .cert-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: rgba(10, 16, 32, 0.97);
+            border: 1px solid rgba(0, 102, 255, 0.35);
+            border-radius: 10px;
+            padding: 12px 16px;
+            width: 220px;
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 10;
         }
 
-        .cert-name {
-            font-size: 0.95rem;
+        .cert-tooltip .cert-name {
+            font-size: 0.85rem;
             font-weight: 600;
             color: #d0d8e0;
+            line-height: 1.4;
         }
 
-        .cert-type {
-            font-size: 0.75rem;
+        .cert-tooltip .cert-type {
+            font-size: 0.72rem;
             color: var(--blue-400);
             margin-top: 4px;
+        }
+
+        .cert-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 102, 255, 0.35);
+        }
+
+        .cert-badge:hover .cert-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* RESUME */
@@ -811,6 +836,7 @@
             .hero-text { text-align: center; }
             .hero-cta { justify-content: center; }
             .hero-photo img { width: 200px; height: 200px; }
+            #hero { padding-top: 90px; padding-bottom: 40px; }
             .nav-links { display: none; }
             .mobile-toggle { display: flex; }
             .nav-links.open {
@@ -818,14 +844,17 @@
                 flex-direction: column;
                 position: fixed;
                 top: 0;
+                right: 0;
+                bottom: 0;
                 left: 0;
-                width: 100vw;
-                height: 100vh;
+                width: 100%;
+                height: 100%;
                 background: #000000;
                 justify-content: center;
                 align-items: center;
                 gap: 40px;
                 z-index: 9998;
+                overflow-y: auto;
             }
             .nav-links.open a { font-size: 1.2rem; color: #ffffff; }
             .mobile-toggle { z-index: 9999; }
@@ -1178,6 +1207,18 @@
                     <span class="project-tag">Time Series</span>
                 </div>
             </a>
+            <a href="https://github.com/PeterRoumeliotis/OpenClawMissionControl" target="_blank" class="project-card">
+                <div class="project-icon">🎮</div>
+                <div class="project-name">OpenClaw Mission Control</div>
+                <div class="project-context">Personal Project · AI Agent Monitoring · Dashboard</div>
+                <div class="project-desc">A real-time pixel-art command center for monitoring OpenClaw AI agents. Tracks live agent status, task queues, and activity logs through a retro-styled dashboard interface.</div>
+                <div class="project-tags">
+                    <span class="project-tag">Next.js</span>
+                    <span class="project-tag">TypeScript</span>
+                    <span class="project-tag">Real-time</span>
+                    <span class="project-tag">AI Agents</span>
+                </div>
+            </a>
         </div>
     </div>
 </section>
@@ -1271,25 +1312,25 @@
         <div class="section-label">Credentials</div>
         <h2 class="section-title">Certifications</h2>
         <div class="certs-grid">
-            <div class="cert-card">
-                <div class="cert-icon">☁️</div>
-                <div>
+            <div class="cert-badge">
+                <img src="AWSCertifiedCloudPractitioner.png" alt="AWS Certified Cloud Practitioner">
+                <div class="cert-tooltip">
                     <div class="cert-name">AWS Certified Cloud Practitioner</div>
-                    <div class="cert-type">Amazon Web Services</div>
+                    <div class="cert-type">Amazon Web Services — foundational cloud concepts, services, security, and pricing</div>
                 </div>
             </div>
-            <div class="cert-card">
-                <div class="cert-icon">🏗️</div>
-                <div>
+            <div class="cert-badge">
+                <img src="AWSCertifiedSolutionsArchitect.png" alt="AWS Certified Solutions Architect – Associate">
+                <div class="cert-tooltip">
                     <div class="cert-name">AWS Solutions Architect – Associate</div>
-                    <div class="cert-type">Amazon Web Services</div>
+                    <div class="cert-type">Amazon Web Services — designing scalable, resilient, and cost-optimized cloud architectures</div>
                 </div>
             </div>
-            <div class="cert-card">
-                <div class="cert-icon">🔍</div>
-                <div>
+            <div class="cert-badge">
+                <img src="CellebriteCCPA.png" alt="Cellebrite CCPA Certified">
+                <div class="cert-tooltip">
                     <div class="cert-name">Cellebrite CCPA Certified</div>
-                    <div class="cert-type">Cellebrite</div>
+                    <div class="cert-type">Cellebrite — mobile device forensics and digital investigation using Cellebrite tools</div>
                 </div>
             </div>
         </div>
@@ -1572,7 +1613,7 @@
     // === SCROLL ANIMATIONS ===
     const navbar = document.getElementById('navbar');
     const animateElements = document.querySelectorAll(
-        '.section-label, .section-title, .timeline-item, .project-card, .skill-category, .cert-card, .stat-card, .contact-text, .contact-links, .resume-actions, .resume-embed-wrapper'
+        '.section-label, .section-title, .timeline-item, .project-card, .skill-category, .cert-badge, .stat-card, .contact-text, .contact-links, .resume-actions, .resume-embed-wrapper'
     );
 
     const observer = new IntersectionObserver((entries) => {
