@@ -466,11 +466,12 @@
             gap: 24px;
         }
 
-        /* Bento layout: Phi Delt, AI Fire, Voice AI are featured */
-        .projects-grid .project-card:nth-child(2) { grid-column: span 2; }
+        /* Bento layout: Roumora spans the full row; Phi Delt, AI Fire, Voice AI, Stock are featured */
+        .projects-grid .project-card:nth-child(1) { grid-column: span 3; }
         .projects-grid .project-card:nth-child(3) { grid-column: span 2; }
-        .projects-grid .project-card:nth-child(6) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(4) { grid-column: span 2; }
         .projects-grid .project-card:nth-child(7) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(8) { grid-column: span 2; }
 
         .project-card {
             background: rgba(10, 16, 32, 0.8);
@@ -1157,6 +1158,21 @@
         <div class="section-label">Work</div>
         <h2 class="section-title">Projects</h2>
         <div class="projects-grid">
+            <a href="https://roumora.com" target="_blank" class="project-card">
+                <div class="project-icon">🧩</div>
+                <div class="project-name">Roumora</div>
+                <div class="project-context">Personal Project · AI Skill Marketplace · roumora.com</div>
+                <div class="project-desc">A marketplace for creating, sharing, selling, and chatting with AI skills (Markdown skill files with YAML frontmatter). Every upload passes a static safety scanner for prompt injection, leaked secrets, phishing, and malware before it can be published. Paid skills sell through Stripe Checkout with creator payouts via Stripe Connect, buyers can chat with any skill equipped through the OpenAI API, and accounts support Google sign-in and TOTP two-factor auth. Runs on AWS, provisioned with CDK.</div>
+                <div class="project-tags">
+                    <span class="project-tag">Next.js</span>
+                    <span class="project-tag">TypeScript</span>
+                    <span class="project-tag">Prisma</span>
+                    <span class="project-tag">MySQL</span>
+                    <span class="project-tag">Stripe</span>
+                    <span class="project-tag">OpenAI</span>
+                    <span class="project-tag">AWS CDK</span>
+                </div>
+            </a>
             <a href="https://github.com/PeterRoumeliotis/ElectronicHealthRecordSystem" target="_blank" class="project-card">
                 <div class="project-icon">🔐</div>
                 <div class="project-name">Electronic Health Record System</div>
