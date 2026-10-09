@@ -1113,10 +1113,11 @@
                 <div class="timeline-role">Founder</div>
                 <div class="timeline-company">Roumora</div>
                 <ul class="timeline-details">
-                    <li>Founded and solo-built Roumora, an AI skill marketplace where creators publish, share, and sell AI skills and users can chat with any skill equipped — built end to end on Next.js, TypeScript, Prisma, and MySQL</li>
-                    <li>Designed a static safety scanner that screens every uploaded skill for prompt injection, leaked secrets, phishing, and malware before it can be published</li>
-                    <li>Integrated Stripe Checkout for paid skills and Stripe Connect for creator payouts, with webhook-driven fulfillment and refunds; secured accounts with Google OAuth and TOTP two-factor authentication</li>
-                    <li>Provisioning AWS infrastructure as code with CDK (EC2, S3, DynamoDB, ECR) and shipping through a GitHub Actions pipeline that deploys via OIDC, running production for about $25 a month</li>
+                    <li>Founded and solo-built Roumora, a platform where creators publish and share AI skills and users can chat with any skill equipped — built end to end on Next.js, React, TypeScript, Prisma, and MySQL</li>
+                    <li>Designed a two-stage safety scanner that screens every upload with pattern checks for prompt injection, leaked secrets, phishing, and malware, then an LLM review that catches the same attacks reworded; chat messages also pass content moderation before reaching the model</li>
+                    <li>Built an AI drafting assistant that turns a plain-language brief into a ready-to-edit skill, along with skill versioning, collections, follows, direct messaging, and community reporting</li>
+                    <li>Secured accounts with Google OAuth, TOTP two-factor authentication with backup codes, Cloudflare Turnstile bot protection, DynamoDB-backed rate limiting, session revocation on credential changes, and audit logging</li>
+                    <li>Provisioning AWS infrastructure as code with CDK (EC2, S3, DynamoDB, ECR) and shipping through a GitHub Actions pipeline with OIDC deploys, Semgrep static analysis, Gitleaks secret scanning, and dependency audits</li>
                 </ul>
             </div>
             <div class="timeline-item current">
@@ -1173,14 +1174,14 @@
                 <div class="project-icon">🏛️</div>
                 <div class="project-name">Roumora</div>
                 <div class="project-context">Personal Project · AI Skill Marketplace · roumora.com</div>
-                <div class="project-desc">A marketplace for creating, sharing, selling, and chatting with AI skills (Markdown skill files with YAML frontmatter). Every upload passes a static safety scanner for prompt injection, leaked secrets, phishing, and malware before it can be published. Paid skills sell through Stripe Checkout with creator payouts via Stripe Connect, buyers can chat with any skill equipped through the OpenAI API, and accounts support Google sign-in and TOTP two-factor auth. Runs on AWS, provisioned with CDK.</div>
+                <div class="project-desc">A platform for creating, sharing, and chatting with AI skills, which are Markdown instruction files that plug into an AI assistant. Every upload passes a two-stage safety scanner: pattern checks for prompt injection, leaked secrets, phishing, and malware, then an LLM review that catches the same attacks reworded. Creators can draft a skill from a plain-language brief with a built-in AI assistant, version it, and organize skills into collections, while users chat with any skill equipped, follow creators, and message each other. Features an interactive 3D Parthenon landing page, Google sign-in with TOTP two-factor auth, and AWS infrastructure provisioned with CDK.</div>
                 <div class="project-tags">
                     <span class="project-tag">Next.js</span>
                     <span class="project-tag">TypeScript</span>
                     <span class="project-tag">Prisma</span>
                     <span class="project-tag">MySQL</span>
-                    <span class="project-tag">Stripe</span>
                     <span class="project-tag">OpenAI</span>
+                    <span class="project-tag">Three.js</span>
                     <span class="project-tag">AWS CDK</span>
                 </div>
             </a>
