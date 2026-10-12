@@ -466,12 +466,13 @@
             gap: 24px;
         }
 
-        /* Bento layout: Roumora spans the full row; Phi Delt, AI Fire, Voice AI, Stock are featured */
+        /* Bento layout: Roumora and CleanFats span the full row; Phi Delt, AI Fire, Voice AI, Stock are featured */
         .projects-grid .project-card:nth-child(1) { grid-column: span 3; }
-        .projects-grid .project-card:nth-child(3) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(2) { grid-column: span 3; }
         .projects-grid .project-card:nth-child(4) { grid-column: span 2; }
-        .projects-grid .project-card:nth-child(7) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(5) { grid-column: span 2; }
         .projects-grid .project-card:nth-child(8) { grid-column: span 2; }
+        .projects-grid .project-card:nth-child(9) { grid-column: span 2; }
 
         .project-card {
             background: rgba(10, 16, 32, 0.8);
@@ -1183,6 +1184,19 @@
                     <span class="project-tag">OpenAI</span>
                     <span class="project-tag">Three.js</span>
                     <span class="project-tag">AWS CDK</span>
+                </div>
+            </a>
+            <a href="https://cleanfatstallow.com" target="_blank" class="project-card">
+                <div class="project-icon">🐄</div>
+                <div class="project-name">CleanFats</div>
+                <div class="project-context">Client Project · E-Commerce Storefront · cleanfatstallow.com</div>
+                <div class="project-desc">A custom storefront for CleanFats, a small-batch brand selling grass-fed beef tallow and tallow skincare. Built as a React single-page site on GitHub Pages with a product catalog, scent and flavor variants that each have their own photo gallery, product detail modals, and a cart that persists between visits. Checkout sends the cart to Shopify's hosted checkout through cart permalinks mapped to Shopify variant IDs, so the brand runs payments and orders through Shopify behind a fully custom front end.</div>
+                <div class="project-tags">
+                    <span class="project-tag">React</span>
+                    <span class="project-tag">JavaScript</span>
+                    <span class="project-tag">Shopify</span>
+                    <span class="project-tag">E-Commerce</span>
+                    <span class="project-tag">GitHub Pages</span>
                 </div>
             </a>
             <a href="https://github.com/PeterRoumeliotis/ElectronicHealthRecordSystem" target="_blank" class="project-card">
